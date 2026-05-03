@@ -1,10 +1,16 @@
 import {useState} from 'react'
 
 import './index.css'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
+  const navigate=useNavigate()
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [showSubmitError,setshowSubmitError]=useState(false)
+  const [errorMsg,setErrormsg]=useState('')
+
 
   const onChangeUsername = event => {
     setUsername(event.target.value)
@@ -13,7 +19,31 @@ const LoginForm = () => {
   const onChangePassword = event => {
     setPassword(event.target.value)
   }
-
+  const onsubmitSuccess=()=>{
+    navigate('/',{replace:true})
+  }
+  const onSubmitFailure = (errorMsg)=>{
+   setshowSubmitError(true)
+   setErrormsg(errorMsg)
+  }
+const submitForm = async event=>{
+  event.preventDefault()
+  const userDetails ={username,password};
+  const url='https://apis.ccbp.in/login'
+  const option={
+    method:'POST',
+    body:JSON.stringify(userDetails),
+  }
+  const response = await  fetch(url,option)
+  const data=await response.json();
+  console.log(data)
+  if(response.ok===true){
+    onsubmitSuccess()}
+    else
+      {
+      onSubmitFailure(data.error_msg)
+    }
+}
   const renderPasswordField = () => (
     <>
       <label className="input-label" htmlFor="password">
@@ -57,7 +87,7 @@ const LoginForm = () => {
         className="login-img"
         alt="website login"
       />
-      <form className="form-container">
+      <form className="form-container" onSubmit={submitForm}>
         <img
           src="https://s3.ap-south-1.amazonaws.com/new-assets.ccbp.in/frontend/loading-data/niat_react_js/niat_coding_questions/nxt-trendz-logo.png"
           className="login-website-logo-desktop-img"
@@ -68,6 +98,7 @@ const LoginForm = () => {
         <button type="submit" className="login-button">
           Login
         </button>
+        {showSubmitError && <p className='error-message'>{errorMsg}</p>}
       </form>
     </div>
   )
