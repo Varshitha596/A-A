@@ -1,7 +1,7 @@
 import {useState} from 'react'
-
 import './index.css'
-import { useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import { useNavigate ,Navigate} from 'react-router-dom'
 
 const LoginForm = () => {
   const navigate=useNavigate()
@@ -19,7 +19,8 @@ const LoginForm = () => {
   const onChangePassword = event => {
     setPassword(event.target.value)
   }
-  const onsubmitSuccess=()=>{
+  const onsubmitSuccess=(jwttoken)=>{
+Cookies.set('jwt_token',jwttoken,{expires:30})
     navigate('/',{replace:true})
   }
   const onSubmitFailure = (errorMsg)=>{
@@ -38,7 +39,8 @@ const submitForm = async event=>{
   const data=await response.json();
   console.log(data)
   if(response.ok===true){
-    onsubmitSuccess()}
+    onsubmitSuccess(data.jwt_token)
+  }
     else
       {
       onSubmitFailure(data.error_msg)
@@ -75,6 +77,10 @@ const submitForm = async event=>{
       />
     </>
   )
+  const jwtToken = Cookies.get('jwt_token');
+  if(jwtToken !== undefined){
+    return <Navigate to="/"/>
+    }
   return (
     <div className="login-form-container">
       <img

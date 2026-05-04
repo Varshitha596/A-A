@@ -1,21 +1,23 @@
 import { Route, Routes } from 'react-router-dom'
-
+import ProtectedRoute from './components/ProtectedRoute'
 import LoginForm from './components/LoginForm'
 import Home from './components/Home'
 import Products from './components/Products'
 import Cart from './components/Cart'
 import NotFound from './components/NotFound'
-
+import AllProductsSection from './components/AllProductsSection'
 import './App.css'
 
 const App = () => (
-  <Routes>
-    <Route path="/" element={<Home />} />
+ <Routes>
+  <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
     <Route path="/login" element={<LoginForm />} />
-    <Route path="/products" element={<Products />} />
-    <Route path="/cart" element={<Cart />} />
+    <Route path="/products" element={<ProtectedRoute><AllProductsSection/></ProtectedRoute>} />
+    <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
+
 )
 
 export default App
+
