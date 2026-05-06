@@ -5,14 +5,14 @@ import Home from './components/Home'
 import Products from './components/Products'
 import Cart from './components/Cart'
 import NotFound from './components/NotFound'
-import AllProductsSection from './components/AllProductsSection'
+//import AllProductsSection from './components/AllProductsSection'
 import './App.css'
 
 const App = () => (
  <Routes>
   <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
     <Route path="/login" element={<LoginForm />} />
-    <Route path="/products" element={<ProtectedRoute><AllProductsSection/></ProtectedRoute>} />
+    <Route path="/products" element={<ProtectedRoute><Products/></ProtectedRoute>} />
     <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
