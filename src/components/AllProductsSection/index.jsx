@@ -7,18 +7,18 @@ import './index.css'
 
 const sortbyOptions=[
   {
-    optionId:'PRICE_HIGH(high-low)',
-    displayText:'price (h-l)',
+    optionId:'PRICE_HIGH',
+    displayText:'price (high-low)',
   },
   {
-    optionId:'PRICE_LOW(low-high)',
-    displayText:'price (l-h)',
+    optionId:'PRICE_LOW',
+    displayText:'price (low-high)',
   },
 ]
 const AllProductsSection = () => {
   const [activeOptionId,setActiveOptionId]=useState(sortbyOptions[0].optionId)
   
-  const updateActiveOptionId=()=>{
+  const updateActiveOptionId=(activeOptionId)=>{
     setActiveOptionId(activeOptionId)
   }
   const [productsList, setProductsList] = useState([])
@@ -26,7 +26,7 @@ const AllProductsSection = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const apiUrl = 'https://apis.ccbp.in/products'
+      const apiUrl = `https://apis.ccbp.in/products?sort_by=${activeOptionId}`
       const jwtToken = Cookies.get('jwt_token')
       const options = {
         headers: {
@@ -50,7 +50,7 @@ const AllProductsSection = () => {
       }
     }
     getProducts()
-  }, [])
+  }, [activeOptionId])
 
   const renderProductsList = () => {
     return (

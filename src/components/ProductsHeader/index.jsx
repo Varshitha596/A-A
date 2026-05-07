@@ -1,5 +1,5 @@
 import './index.css'
-
+import { BsFilterRight } from "react-icons/bs";
 const ProductsHeader = props => {
   const {sortbyOptions, activeOptionId, updateActiveOptionId} = props
 
@@ -11,6 +11,7 @@ const ProductsHeader = props => {
     <div className="products-header">
       <h1 className="products-list-heading">All Products</h1>
       <div className="sort-by-container">
+        <BsFilterRight className='sort-by-icon'/>
         <p className="sort-by">Sort by</p>
         <select
           className="sort-by-select"
